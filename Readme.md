@@ -11,7 +11,8 @@ Before you start, ensure you have Python and pip installed on your system.
 1. **Activate Virtual Environment** (optional but recommended):
 
     ```bash
-    source <path_to_virtualenv>/bin/activate
+    python -m venv venv
+    source venv/bin/activate
     ```
 
 2. **Install Dependencies**:
