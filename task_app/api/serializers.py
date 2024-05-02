@@ -7,12 +7,13 @@ def name_length(value):
         raise serializers.ValidationError('Name should be at least 2 characters long')
     return value
 class TaskSerializer(serializers.ModelSerializer):
+    description = serializers.CharField(required=False)
     class Meta:
         model = Task
         fields = '__all__'
     # id = serializers.IntegerField(read_only=True)
     # name = serializers.CharField(max_length=100, validators=[name_length])
-    # description = serializers.CharField()
+    # description = serializers.CharField(allow_blank=True)
     # completed = serializers.BooleanField(default=False)
     # created_at = serializers.DateTimeField(read_only=True)
     # updated_at = serializers.DateTimeField(read_only=True)
@@ -33,7 +34,8 @@ class TaskSerializer(serializers.ModelSerializer):
     #     return Task.objects.delete(**validated_data)
     
     def validate(self, data):
-        if data['name'] == data['description']:
-            raise serializers.ValidationError('Name and description should not be same')
+        if 'description' in data:
+            if data['name'] == data['description']:
+                raise serializers.ValidationError('Name and description should not be same')
         return data
     
