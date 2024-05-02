@@ -7,7 +7,7 @@ def name_length(value):
         raise serializers.ValidationError('Name should be at least 2 characters long')
     return value
 class TaskSerializer(serializers.ModelSerializer):
-    description = serializers.CharField(required=False)
+    description = serializers.CharField(required=False, allow_blank=True)
     class Meta:
         model = Task
         fields = '__all__'
@@ -33,6 +33,13 @@ class TaskSerializer(serializers.ModelSerializer):
     # def delete(self, validated_data):
     #     return Task.objects.delete(**validated_data)
     
+    def validate_description(self, value):
+        """
+        Ensure that description is either provided or is an empty string.
+        """
+        if value is None:
+            return ''
+        return value
     def validate(self, data):
         if 'description' in data:
             if data['name'] == data['description']:
